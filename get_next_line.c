@@ -33,10 +33,12 @@ int	check_nl(char *stack)
 	size_t	i;
 
 	i = -1;
+	if (!stack)
+		return (-1);
 	while (stack[++i])
 		if (stack[i] == '\n')
 			return (i);
-	return (0);	
+	return (-1);	
 }
 
 /*char	*add_check_stack(char *stack, char *buff)
@@ -110,13 +112,17 @@ char	*find_line(char *stack, char *buff, int fd)
 	int res;
 
 	res = read(fd, buff, BUFFER_SIZE);
-	while (res > 0 && check_nl(stack))
+	while (res > 0)
 	{
 		buff[res] = 0;
 		if (!stack)
 			stack = new_stack(buff);
 		else
 			stack = add_to_stack(stack, buff);
+		if (check_nl(stack) != -1)
+			res = 0;
+		else
+			res = read(fd, buff, BUFFER_SIZE);
 	}
 	if (res < 0)
 	{
