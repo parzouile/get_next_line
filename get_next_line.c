@@ -6,55 +6,15 @@
 /*   By: aschmitt <aschmitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 23:17:32 by aschmitt          #+#    #+#             */
-/*   Updated: 2023/11/14 12:12:09 by aschmitt         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:27:21 by aschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-/*char	*add_check_stack(char *stack, char *buff)
-{
-	# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <string.h>
-# include <fcntl.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-
-	char *result;
-	size_t	i;
-	size_t	a;
-
-	a = -1;
-	i = -1;
-	if (!stack)
-	{
-		result = malloc(sizeof(char) * (ft_strlen(buff) + 1));
-		if (!result)
-			return (NULL);
-		while (buff[++i])
-			result[i] = buff[i];
-		result[i] = 0;
-	}
-	else
-	{
-		result = malloc(sizeof(char) * (ft_strlen((*stack)) + ft_strlen(buff) + 1));
-		if (!result)
-			return (NULL);
-		while (stack[++i])
-			result[i] = stack[i];
-		while (buff[++a])
-			result[i++] = buff[a];
-		result[i] = 0;
-	}
-	free(stack);
-	return (result);
-}*/
-
 char	*find_line(char *stack, char *buff, int fd)
 {
-	int res;
+	int	res;
 
 	res = read(fd, buff, BUFFER_SIZE);
 	while (res > 0)
@@ -80,57 +40,65 @@ char	*find_line(char *stack, char *buff, int fd)
 	return (stack);
 }
 
-char	*ft_linator(char *buffer)
+char	*ft_line(char *stack)
 {
-	size_t	i;
+	int		size;
+	int		i;
 	char	*line;
 
-	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
-		i++;
-	if (buffer[i] == '\n')
-		i++;
-	line = malloc(sizeof(char) * i + 1);
+	size = check_nl(stack);
+	if (size == -1)
+		size = ft_strlen(stack);
+	else
+		size ++;
+	line = malloc(sizeof(char) * (size + 1));
 	if (!line)
 		return (NULL);
-	line[i] = '\0';
-	i = 0;
-	while (buffer[i])
-	{
-		line[i] = buffer[i];
-		i++;
-		if (buffer[i - 1] == '\n')
-			break ;
-	}
+	i = -1;
+	while (++i < size)
+		line[i] = stack[i];
+	line[i] = 0;
 	return (line);
 }
 
-char	*ft_buffinator(char *buffer)
+char	*ft_strcpy(char *dst, const char *src)
 {
-	size_t	malloc_len;
 	size_t	i;
-	char	*temp;
 
-	malloc_len = 0;
 	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
+	while (src[i])
+	{
+		dst[i] = src[i];
 		i++;
-	if (buffer[i] && buffer[1 + i])
-	{
-		while (buffer[malloc_len + i])
-			malloc_len++;
 	}
-	if (malloc_len > 0)
+	dst[i] = 0;
+	return (dst);
+}
+
+char	*ft_restack(char *stack)
+{
+	int		i;
+	int		size;
+	char	*new_stack;
+
+	i = check_nl(stack);
+	size = 0;
+	if (i != -1)
 	{
-		temp = malloc(sizeof(char) * (malloc_len));
-		if (!temp)
-			return (NULL);
-		strcpy(temp, buffer + i + 1);
+		if (stack[i] && stack[i + 1])
+			while (stack[i + size])
+				size ++;
+	}
+	if (size > 0)
+	{
+		new_stack = malloc(sizeof(char) * (size));
+		if (new_stack)
+			ft_strcpy(new_stack, stack + i + 1);
 	}
 	else
-		temp = NULL;
-	free(buffer);
-	return (temp);
+		new_stack = NULL;
+	free(stack);
+	return (new_stack);
 }
 
 char	*get_next_line(int fd)
@@ -138,7 +106,7 @@ char	*get_next_line(int fd)
 	static char	*stack;
 	char		*buff;
 	char		*line;
-	
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
@@ -147,7 +115,7 @@ char	*get_next_line(int fd)
 	stack = find_line(stack, buff, fd);
 	if (!stack)
 		return (0);
-	line = ft_linator(stack);
-	stack = ft_buffinator(stack);
+	line = ft_line(stack);
+	stack = ft_restack(stack);
 	return (line);
 }

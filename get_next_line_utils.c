@@ -6,7 +6,7 @@
 /*   By: aschmitt <aschmitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 20:50:25 by aschmitt          #+#    #+#             */
-/*   Updated: 2023/11/14 12:12:13 by aschmitt         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:23:48 by aschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_nl(char *stack)
 	while (stack[++i])
 		if (stack[i] == '\n')
 			return (i);
-	return (-1);	
+	return (-1);
 }
 
 char	*add_to_stack(char *stack, char *buff)
@@ -57,7 +57,7 @@ char	*add_to_stack(char *stack, char *buff)
 
 char	*new_stack(char *buff)
 {
-	char *result;
+	char	*result;
 	size_t	i;
 
 	i = -1;
