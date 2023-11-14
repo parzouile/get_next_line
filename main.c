@@ -4,6 +4,7 @@ char	*get_next_line(int fd);
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 int main(){
     int fd = open("note", O_RDONLY);

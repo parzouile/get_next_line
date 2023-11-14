@@ -6,11 +6,15 @@
 /*   By: aschmitt <aschmitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 23:17:32 by aschmitt          #+#    #+#             */
-/*   Updated: 2023/11/10 01:35:42 by aschmitt         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:12:09 by aschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <stdio.h>
+#include "get_next_line.h"
+
+/*char	*add_check_stack(char *stack, char *buff)
+{
+	# include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
@@ -18,31 +22,6 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i ++;
-	return (i);
-}
-
-int	check_nl(char *stack)
-{
-	size_t	i;
-
-	i = -1;
-	if (!stack)
-		return (-1);
-	while (stack[++i])
-		if (stack[i] == '\n')
-			return (i);
-	return (-1);	
-}
-
-/*char	*add_check_stack(char *stack, char *buff)
-{
 	char *result;
 	size_t	i;
 	size_t	a;
@@ -72,40 +51,6 @@ int	check_nl(char *stack)
 	free(stack);
 	return (result);
 }*/
-char	*add_to_stack(char *stack, char *buff)
-{
-	char	*result;
-	size_t	i;
-	size_t	a;
-
-	a = -1;
-	i = -1;
-	result = malloc(sizeof(char) * (ft_strlen(stack) + ft_strlen(buff) + 1));
-	if (!result)
-		return (NULL);
-	while (stack[++i])
-		result[i] = stack[i];
-	while (buff[++a])
-		result[i++] = buff[a];
-	result[i] = 0;
-	free(stack);
-	return (result);
-}
-char	*new_stack(char *buff)
-{
-	char *result;
-	size_t	i;
-
-	i = -1;
-	result = malloc(sizeof(char) * (ft_strlen(buff) + 1));
-	if (!result)
-		return (NULL);
-	while (buff[++i])
-		result[i] = buff[i];
-	result[i] = 0;
-	return (result);
-}
-
 
 char	*find_line(char *stack, char *buff, int fd)
 {
