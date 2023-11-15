@@ -6,7 +6,7 @@
 /*   By: aschmitt <aschmitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 20:52:10 by aschmitt          #+#    #+#             */
-/*   Updated: 2023/11/14 13:29:35 by aschmitt         ###   ########.fr       */
+/*   Updated: 2023/11/15 16:37:35 by aschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,14 @@
 # include <stdlib.h>
 # include <string.h>
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 20
+# endif
+
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
 int		check_nl(char *stack);
 char	*add_to_stack(char *stack, char *buff);
-char	*new_stack(char *buff);
+char	*ft_new_stack(char *buff);
 
 #endif

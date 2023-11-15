@@ -6,7 +6,7 @@
 /*   By: aschmitt <aschmitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 23:17:32 by aschmitt          #+#    #+#             */
-/*   Updated: 2023/11/14 13:27:21 by aschmitt         ###   ########.fr       */
+/*   Updated: 2023/11/15 16:58:08 by aschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ char	*find_line(char *stack, char *buff, int fd)
 	{
 		buff[res] = 0;
 		if (!stack)
-			stack = new_stack(buff);
+			stack = ft_new_stack(buff);
 		else
 			stack = add_to_stack(stack, buff);
-		if (check_nl(stack) != -1)
+		if (!stack || check_nl(stack) != -1)
 			res = 0;
 		else
 			res = read(fd, buff, BUFFER_SIZE);
@@ -83,20 +83,21 @@ char	*ft_restack(char *stack)
 
 	i = check_nl(stack);
 	size = 0;
-	if (i != -1)
+	new_stack = NULL;
+	if (i == -1)
 	{
-		if (stack[i] && stack[i + 1])
-			while (stack[i + size])
-				size ++;
+		free(stack);
+		return (new_stack);
 	}
+	if (stack[i] && stack[i + 1])
+		while (stack[i + size])
+			size ++;
 	if (size > 0)
 	{
 		new_stack = malloc(sizeof(char) * (size));
 		if (new_stack)
 			ft_strcpy(new_stack, stack + i + 1);
 	}
-	else
-		new_stack = NULL;
 	free(stack);
 	return (new_stack);
 }
@@ -114,7 +115,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	stack = find_line(stack, buff, fd);
 	if (!stack)
-		return (0);
+		return (NULL);
 	line = ft_line(stack);
 	stack = ft_restack(stack);
 	return (line);

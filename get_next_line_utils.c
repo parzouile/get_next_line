@@ -6,7 +6,7 @@
 /*   By: aschmitt <aschmitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 20:50:25 by aschmitt          #+#    #+#             */
-/*   Updated: 2023/11/14 12:23:48 by aschmitt         ###   ########.fr       */
+/*   Updated: 2023/11/15 16:57:09 by aschmitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*add_to_stack(char *stack, char *buff)
 	return (result);
 }
 
-char	*new_stack(char *buff)
+char	*ft_new_stack(char *buff)
 {
 	char	*result;
 	size_t	i;
